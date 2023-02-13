@@ -10,9 +10,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class SubscribeMailerTelegramBot extends TelegramLongPollingBot {
 
-    @Value("${BOT_USERNAME}")
+    @Value("${bot.username}")
     private String username;
-    public SubscribeMailerTelegramBot(@Value("${BOT_TOKEN}") String token) {
+    public SubscribeMailerTelegramBot(@Value("${bot.token}") String token) {
         super(token);
     }
 
