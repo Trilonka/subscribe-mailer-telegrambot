@@ -14,6 +14,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  BOT_USERNAME: "username"
+  BOT_TOKEN: "token"
+
 jobs:
   build:
 
