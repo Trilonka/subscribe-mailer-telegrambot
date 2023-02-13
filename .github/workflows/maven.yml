@@ -19,6 +19,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      BOT_USERNAME: ${{ secrets.TELEGRAM_USERNAME }}
+      BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
