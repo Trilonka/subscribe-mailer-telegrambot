@@ -2,6 +2,7 @@ package com.github.trilonka.subscribemailertelegrambot.command;
 
 import com.github.trilonka.subscribemailertelegrambot.bot.SubscribeMailerTelegramBot;
 import com.github.trilonka.subscribemailertelegrambot.service.SendBotMessageService;
+import com.github.trilonka.subscribemailertelegrambot.service.TelegramUserService;
 import com.github.trilonka.subscribemailertelegrambot.service.impl.SendBotMessageServiceBasic;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,6 +15,7 @@ abstract class AbstractCommandTest {
 
     protected SubscribeMailerTelegramBot bot = Mockito.mock(SubscribeMailerTelegramBot.class);
     protected SendBotMessageService sendBotMessageService = new SendBotMessageServiceBasic(bot);
+    protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
 
     abstract String getCommandMessage();
     abstract Command getCommand();

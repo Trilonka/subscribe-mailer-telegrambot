@@ -2,9 +2,26 @@ version: '3.1'
 
 services:
   jrtb:
+    depends_on:
+      - jrtb-db
     build:
       context: .
     environment:
-      - BOT_USERNAME=${BOT_USERNAME}
-      - BOT_TOKEN=${BOT_TOKEN}
+      BOT_USERNAME: ${BOT_USERNAME}
+      BOT_TOKEN: ${BOT_TOKEN}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_URL: mysql://jrtb-db:3306/jrtb_db
     restart: always
+  jrtb-db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'jrtb_db'
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
