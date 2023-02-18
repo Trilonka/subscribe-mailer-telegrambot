@@ -30,7 +30,6 @@ jobs:
       with:
         mysql version: '8.0'
         mysql database: 'dev_jrtb_db'
-        mysql root password: 'root'
         mysql user: 'dev_jrtb_db_user'
         mysql password: 'dev_jrtb_db_password'
     - name: Set up JDK 11
