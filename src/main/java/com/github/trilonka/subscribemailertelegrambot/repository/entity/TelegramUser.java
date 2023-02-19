@@ -1,21 +1,25 @@
 package com.github.trilonka.subscribemailertelegrambot.repository.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
+@FieldDefaults(level= AccessLevel.PRIVATE)
 @Entity
 @Table(name="tg_user")
 public class TelegramUser {
 
     @Id
     @Column(name="chat_id")
-    private String chatId;
+    String chatId;
 
     @Column(name="active")
-    private boolean active;
+    boolean active;
+
+    @ManyToMany(mappedBy="users", fetch=FetchType.EAGER)
+    List<GroupSub> groupSubs;
 }

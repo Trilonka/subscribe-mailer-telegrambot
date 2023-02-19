@@ -1,6 +1,8 @@
 package com.github.trilonka.subscribemailertelegrambot.bot;
 
+import com.github.trilonka.subscribemailertelegrambot.client.JavaRushGroupClient;
 import com.github.trilonka.subscribemailertelegrambot.command.CommandContainer;
+import com.github.trilonka.subscribemailertelegrambot.service.GroupSubService;
 import com.github.trilonka.subscribemailertelegrambot.service.TelegramUserService;
 import com.github.trilonka.subscribemailertelegrambot.service.impl.SendBotMessageServiceBasic;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +22,14 @@ public class SubscribeMailerTelegramBot extends TelegramLongPollingBot {
     @Value("${bot.username}")
     private String username;
 
-    public SubscribeMailerTelegramBot(@Value("${bot.token}") String token, TelegramUserService telegramUserService) {
+    public SubscribeMailerTelegramBot(@Value("${bot.token}") String token,
+                                      TelegramUserService telegramUserService,
+                                      JavaRushGroupClient javaRushGroupClient,
+                                      GroupSubService groupSubService)
+    {
         super(token);
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceBasic(this), telegramUserService);
+        this.commandContainer = new CommandContainer(
+                new SendBotMessageServiceBasic(this), telegramUserService, javaRushGroupClient, groupSubService);
     }
 
     @Override
