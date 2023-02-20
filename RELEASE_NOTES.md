@@ -1,5 +1,10 @@
 # Release Notes
 
+## 0.5.0-SNAPSHOT
+
+* added ability to subscribe on group
+* added ability to see the list of the group subscription
+
 ## 0.4.0-SNAPSHOT
 
 * added repository layer

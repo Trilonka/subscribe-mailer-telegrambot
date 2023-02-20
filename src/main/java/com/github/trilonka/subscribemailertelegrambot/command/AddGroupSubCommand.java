@@ -14,7 +14,6 @@ import static com.github.trilonka.subscribemailertelegrambot.command.CommandName
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
-// TODO: write tests
 public class AddGroupSubCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
