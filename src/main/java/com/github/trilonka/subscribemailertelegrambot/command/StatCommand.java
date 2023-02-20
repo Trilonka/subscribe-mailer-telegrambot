@@ -9,7 +9,7 @@ public class StatCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
 
-    public final static String STAT_MESSAGE = "Sub Mailer Telegram Bot использует %s человек.";
+    public final static String STAT_MESSAGE = "Ботом использует %s человек.";
 
     public StatCommand(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         this.sendBotMessageService = sendBotMessageService;

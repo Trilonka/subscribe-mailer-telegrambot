@@ -9,7 +9,7 @@ public class StopCommand implements Command {
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
 
-    public static final String STOP_MESSAGE = "Деактивировал все ваши подписки \uD83D\uDE1F.";
+    public static final String STOP_MESSAGE = "Деактивировал все твои подписки \uD83D\uDE1F.";
 
     public StopCommand(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         this.sendBotMessageService = sendBotMessageService;
