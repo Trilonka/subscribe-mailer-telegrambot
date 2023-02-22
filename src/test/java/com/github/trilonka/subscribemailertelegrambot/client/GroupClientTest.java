@@ -4,7 +4,7 @@ import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupCountReque
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupDiscussionInfo;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupInfo;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupRequestArgs;
-import com.github.trilonka.subscribemailertelegrambot.client.impl.JavaRushGroupClientBasic;
+import com.github.trilonka.subscribemailertelegrambot.client.impl.GroupClientBasic;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +14,10 @@ import java.util.List;
 import static com.github.trilonka.subscribemailertelegrambot.client.dto.MeGroupInfoType.TECH;
 
 @DisplayName("Integration-level testing for JavaRushGroupClientImplTest")
-public class JavaRushGroupClientTest {
+public class GroupClientTest {
 
-    private final JavaRushGroupClient groupClient =
-            new JavaRushGroupClientBasic("https://javarush.com/api/1.0/rest");
+    private final GroupClient groupClient =
+            new GroupClientBasic("https://javarush.com/api/1.0/rest");
 
     @Test
     public void shouldProperlyGetGroupsWithEmptyArgs() {

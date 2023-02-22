@@ -1,24 +1,26 @@
 package com.github.trilonka.subscribemailertelegrambot.client.impl;
 
-import com.github.trilonka.subscribemailertelegrambot.client.JavaRushGroupClient;
-import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupCountRequestArgs;
-import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupDiscussionInfo;
-import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupInfo;
-import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupRequestArgs;
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
+import com.github.trilonka.subscribemailertelegrambot.client.dto.*;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 @Component
-public class JavaRushGroupClientBasic implements JavaRushGroupClient {
+public class GroupClientBasic implements GroupClient {
 
     private final String javarushApiGroupPath;
+    private final String getJavarushApiPostPath;
 
-    public JavaRushGroupClientBasic(@Value("${javarush.api.path}") String path) {
-        this.javarushApiGroupPath = path + "/groups";
+    public GroupClientBasic(@Value("${javarush.api.path}") String javarushApi) {
+        this.javarushApiGroupPath = javarushApi + "/groups";
+        this.getJavarushApiPostPath = javarushApi + "/posts";
     }
 
     @Override
@@ -57,14 +59,13 @@ public class JavaRushGroupClientBasic implements JavaRushGroupClient {
 
     @Override
     public Integer findLastPostId(Integer groupSub) {
-//        List<PostInfo> posts = Unirest.get(getJavarushApiPostPath)
-//                .queryString("order", "NEW")
-//                .queryString("groupKid", groupSubId.toString())
-//                .queryString("limit", "1")
-//                .asObject(new GenericType<List<PostInfo>>() {
-//                })
-//                .getBody();
-//        return isEmpty(posts) ? 0 : Optional.ofNullable(posts.get(0)).map(PostInfo::getId).orElse(0);
-        return null;
+        List<PostInfo> posts = Unirest.get(getJavarushApiPostPath)
+                .queryString("order", "NEW")
+                .queryString("groupKid", groupSub.toString())
+                .queryString("limit", "1")
+                .asObject(new GenericType<List<PostInfo>>() {
+                })
+                .getBody();
+        return isEmpty(posts) ? 0 : Optional.ofNullable(posts.get(0)).map(PostInfo::getId).orElse(0);
     }
 }

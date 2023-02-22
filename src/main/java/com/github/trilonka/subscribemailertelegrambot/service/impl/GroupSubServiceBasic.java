@@ -1,5 +1,6 @@
 package com.github.trilonka.subscribemailertelegrambot.service.impl;
 
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupDiscussionInfo;
 import com.github.trilonka.subscribemailertelegrambot.repository.GroupSubRepository;
 import com.github.trilonka.subscribemailertelegrambot.repository.entity.GroupSub;
@@ -9,6 +10,7 @@ import com.github.trilonka.subscribemailertelegrambot.service.TelegramUserServic
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,10 +18,15 @@ public class GroupSubServiceBasic implements GroupSubService {
 
     private final GroupSubRepository groupSubRepository;
     private final TelegramUserService telegramUserService;
+    private final GroupClient groupClient;
 
-    public GroupSubServiceBasic(GroupSubRepository groupSubRepository, TelegramUserService telegramUserService) {
+    public GroupSubServiceBasic(GroupSubRepository groupSubRepository,
+                                TelegramUserService telegramUserService,
+                                GroupClient groupClient)
+    {
         this.groupSubRepository = groupSubRepository;
         this.telegramUserService = telegramUserService;
+        this.groupClient = groupClient;
     }
 
     @Override
@@ -39,6 +46,7 @@ public class GroupSubServiceBasic implements GroupSubService {
         } else {
             groupSub = new GroupSub();
             groupSub.addUser(telegramUser);
+            groupSub.setLastArticleId(groupClient.findLastPostId(groupDiscussionInfo.getId()));
             groupSub.setId(groupDiscussionInfo.getId());
             groupSub.setTitle(groupDiscussionInfo.getTitle());
         }
@@ -53,5 +61,10 @@ public class GroupSubServiceBasic implements GroupSubService {
     @Override
     public Optional<GroupSub> findById(Integer id) {
         return groupSubRepository.findById(id);
+    }
+
+    @Override
+    public List<GroupSub> findAll() {
+        return groupSubRepository.findAll();
     }
 }

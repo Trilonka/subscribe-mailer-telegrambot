@@ -1,5 +1,11 @@
 # Release Notes
 
+## 0.7.0-SNAPSHOT
+
+* added ability to send notifications about new articles
+* added ability to set inactive telegram user
+* added ability to set active user and/or start using it
+
 ## 0.6.0-SNAPSHOT
 
 * added the ability to delete group subscription
