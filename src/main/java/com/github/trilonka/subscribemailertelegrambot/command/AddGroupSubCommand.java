@@ -1,6 +1,6 @@
 package com.github.trilonka.subscribemailertelegrambot.command;
 
-import com.github.trilonka.subscribemailertelegrambot.client.JavaRushGroupClient;
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupDiscussionInfo;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupRequestArgs;
 import com.github.trilonka.subscribemailertelegrambot.repository.entity.GroupSub;
@@ -17,15 +17,15 @@ import static org.apache.commons.lang3.StringUtils.isNumeric;
 public class AddGroupSubCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
-    private final JavaRushGroupClient javaRushGroupClient;
+    private final GroupClient groupClient;
     private final GroupSubService groupSubService;
 
     public AddGroupSubCommand(SendBotMessageService sendBotMessageService,
-                              JavaRushGroupClient javaRushGroupClient,
+                              GroupClient groupClient,
                               GroupSubService groupSubService)
     {
         this.sendBotMessageService = sendBotMessageService;
-        this.javaRushGroupClient = javaRushGroupClient;
+        this.groupClient = groupClient;
         this.groupSubService = groupSubService;
     }
 
@@ -39,7 +39,7 @@ public class AddGroupSubCommand implements Command {
         String groupId = message.split(" ")[1];
         String chatId = update.getMessage().getChatId().toString();
         if (isNumeric(groupId)) {
-            GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
+            GroupDiscussionInfo groupById = groupClient.getGroupById(Integer.parseInt(groupId));
             if (isNull(groupById.getId())) {
                 sendGroupNotFound(chatId, groupId);
             }
@@ -56,7 +56,7 @@ public class AddGroupSubCommand implements Command {
     }
 
     private void sendGroupIdList(String chatId) {
-        String groupIds = javaRushGroupClient.getGroupList(GroupRequestArgs.builder().build()).stream()
+        String groupIds = groupClient.getGroupList(GroupRequestArgs.builder().build()).stream()
                 .map(group -> String.format("%s - %s \n", group.getTitle(), group.getId()))
                 .collect(Collectors.joining());
         String message = "Чтобы подписаться на группу - передай комадну вместе с ID группы. \n" +

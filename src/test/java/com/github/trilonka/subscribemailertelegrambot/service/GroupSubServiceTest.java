@@ -1,5 +1,6 @@
 package com.github.trilonka.subscribemailertelegrambot.service;
 
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupDiscussionInfo;
 import com.github.trilonka.subscribemailertelegrambot.repository.GroupSubRepository;
 import com.github.trilonka.subscribemailertelegrambot.repository.entity.GroupSub;
@@ -24,8 +25,9 @@ public class GroupSubServiceTest {
     @BeforeEach
     public void init() {
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
+        GroupClient groupClient = Mockito.mock(GroupClient.class);
         groupSubRepository = Mockito.mock(GroupSubRepository.class);
-        groupSubService = new GroupSubServiceBasic(groupSubRepository, telegramUserService);
+        groupSubService = new GroupSubServiceBasic(groupSubRepository, telegramUserService, groupClient);
 
         newUser = new TelegramUser();
         newUser.setActive(true);
@@ -43,6 +45,7 @@ public class GroupSubServiceTest {
 
         GroupSub expectedGroupSub = new GroupSub();
         expectedGroupSub.setId(groupDiscussionInfo.getId());
+        expectedGroupSub.setLastArticleId(0);
         expectedGroupSub.setTitle(groupDiscussionInfo.getTitle());
         expectedGroupSub.addUser(newUser);
 

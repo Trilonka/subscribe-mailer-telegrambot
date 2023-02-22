@@ -1,6 +1,6 @@
 package com.github.trilonka.subscribemailertelegrambot.command;
 
-import com.github.trilonka.subscribemailertelegrambot.client.JavaRushGroupClient;
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
 import com.github.trilonka.subscribemailertelegrambot.service.GroupSubService;
 import com.github.trilonka.subscribemailertelegrambot.service.SendBotMessageService;
 import com.github.trilonka.subscribemailertelegrambot.service.TelegramUserService;
@@ -16,7 +16,7 @@ public class CommandContainer {
 
     public CommandContainer(SendBotMessageService sendBotMessageService,
                             TelegramUserService telegramUserService,
-                            JavaRushGroupClient javaRushGroupClient,
+                            GroupClient groupClient,
                             GroupSubService groupSubService)
     {
         commandMap = Map.ofEntries(
@@ -26,7 +26,7 @@ public class CommandContainer {
                 Map.entry(NO.getCommandName(), new NoCommand(sendBotMessageService)),
                 Map.entry(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService)),
                 Map.entry(ADD_GROUP_SUB.getCommandName(), new AddGroupSubCommand(
-                        sendBotMessageService, javaRushGroupClient, groupSubService)),
+                        sendBotMessageService, groupClient, groupSubService)),
                 Map.entry(LIST_GROUP_SUB.getCommandName(), new ListGroupSubCommand(
                         telegramUserService, sendBotMessageService)),
                 Map.entry(DELETE_GROUP_SUB.getCommandName(), new DeleteGroupSubCommand(

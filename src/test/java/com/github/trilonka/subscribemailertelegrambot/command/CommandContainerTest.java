@@ -1,6 +1,6 @@
 package com.github.trilonka.subscribemailertelegrambot.command;
 
-import com.github.trilonka.subscribemailertelegrambot.client.JavaRushGroupClient;
+import com.github.trilonka.subscribemailertelegrambot.client.GroupClient;
 import com.github.trilonka.subscribemailertelegrambot.service.GroupSubService;
 import com.github.trilonka.subscribemailertelegrambot.service.SendBotMessageService;
 import com.github.trilonka.subscribemailertelegrambot.service.TelegramUserService;
@@ -21,10 +21,10 @@ public class CommandContainerTest {
     public void init() {
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
-        JavaRushGroupClient javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
+        GroupClient groupClient = Mockito.mock(GroupClient.class);
         GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
         commandContainer = new CommandContainer(
-                sendBotMessageService, telegramUserService, javaRushGroupClient, groupSubService);
+                sendBotMessageService, telegramUserService, groupClient, groupSubService);
     }
 
     @Test

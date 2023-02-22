@@ -7,7 +7,7 @@ import com.github.trilonka.subscribemailertelegrambot.client.dto.GroupRequestArg
 
 import java.util.List;
 
-public interface JavaRushGroupClient {
+public interface GroupClient {
 
     List<GroupInfo> getGroupList(GroupRequestArgs requestArgs);
 
