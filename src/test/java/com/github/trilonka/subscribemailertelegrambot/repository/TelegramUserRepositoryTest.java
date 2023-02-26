@@ -38,7 +38,7 @@ public class TelegramUserRepositoryTest {
     public void shouldProperlySaveTelegramUser() {
         // given
         TelegramUser telegramUser = new TelegramUser();
-        telegramUser.setChatId("12317");
+        telegramUser.setChatId(123L);
         telegramUser.setActive(false);
         telegramUserRepository.save(telegramUser);
 
@@ -54,7 +54,7 @@ public class TelegramUserRepositoryTest {
     @Test
     public void shouldProperlyGetAllGroupSubsForUser() {
         // when
-        Optional<TelegramUser> userFromDb = telegramUserRepository.findById("1");
+        Optional<TelegramUser> userFromDb = telegramUserRepository.findById(1L);
 
         // then
         Assertions.assertTrue(userFromDb.isPresent());
@@ -62,7 +62,7 @@ public class TelegramUserRepositoryTest {
         for (int i = 0; i < groupSubs.size(); ++i) {
             Assertions.assertEquals(String.format("g%s", (i+1)), groupSubs.get(i).getTitle());
             Assertions.assertEquals(i + 1, groupSubs.get(i).getId());
-            Assertions.assertEquals(i + 1, groupSubs.get(i).getLastArticleId());
+            Assertions.assertEquals(i + 1, groupSubs.get(i).getLastPostId());
         }
     }
 }

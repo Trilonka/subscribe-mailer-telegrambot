@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -30,7 +31,7 @@ public class GroupSubServiceBasic implements GroupSubService {
     }
 
     @Override
-    public GroupSub save(String chatId, GroupDiscussionInfo groupDiscussionInfo) {
+    public GroupSub save(Long chatId, GroupDiscussionInfo groupDiscussionInfo) {
         TelegramUser telegramUser = telegramUserService.findByChatId(chatId).orElseThrow(NotFoundException::new);
         // TODO add exception handling
         GroupSub groupSub;
@@ -38,7 +39,7 @@ public class GroupSubServiceBasic implements GroupSubService {
         if (groupSubFromDB.isPresent()) {
             groupSub = groupSubFromDB.get();
             Optional<TelegramUser> first = groupSub.getUsers().stream()
-                    .filter(it -> it.getChatId().equalsIgnoreCase(chatId))
+                    .filter(it -> Objects.equals(it.getChatId(), chatId))
                     .findFirst();
             if (first.isEmpty()) {
                 groupSub.addUser(telegramUser);
@@ -46,7 +47,7 @@ public class GroupSubServiceBasic implements GroupSubService {
         } else {
             groupSub = new GroupSub();
             groupSub.addUser(telegramUser);
-            groupSub.setLastArticleId(groupClient.findLastPostId(groupDiscussionInfo.getId()));
+            groupSub.setLastPostId(groupClient.findLastPostId(groupDiscussionInfo.getId()));
             groupSub.setId(groupDiscussionInfo.getId());
             groupSub.setTitle(groupDiscussionInfo.getTitle());
         }

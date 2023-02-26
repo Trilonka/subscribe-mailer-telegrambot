@@ -9,7 +9,7 @@ public interface TelegramUserService {
 
     void save(TelegramUser user);
 
-    Optional<TelegramUser> findByChatId(String chatId);
+    Optional<TelegramUser> findByChatId(Long chatId);
 
     List<TelegramUser> findAllInActiveUsers();
 
