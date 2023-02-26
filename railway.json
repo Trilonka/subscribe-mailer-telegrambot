@@ -10,3 +10,4 @@
     "healthcheckTimeout": 100,
     "restartPolicyType": "never"
   }
+}
