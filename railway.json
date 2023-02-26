@@ -7,7 +7,7 @@
   "deploy": {
     "startCommand": "start.sh $BOT_USERNAME $BOT_TOKEN",
     "healthcheckPath": "/",
-    "restartPolicyType": "NEVER",
-    "healthcheckTimeout": 100
+    "healthcheckTimeout": 100,
+    "restartPolicyType": "never"
   }
 }
