@@ -12,7 +12,7 @@
 
 	<groupId>com.github.trilonka</groupId>
 	<artifactId>subscribe-mailer-telegrambot</artifactId>
-	<version>0.7.0-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 	<name>subscribe-mailer-telegrambot</name>
 	<description>Study project telegram bot for javarush</description>
 

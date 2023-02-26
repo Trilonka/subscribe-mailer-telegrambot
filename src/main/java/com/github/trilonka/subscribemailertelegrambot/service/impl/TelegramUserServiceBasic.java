@@ -21,12 +21,17 @@ public class TelegramUserServiceBasic implements TelegramUserService {
     }
 
     @Override
-    public List<TelegramUser> retrieveAllActiveUsers() {
-        return telegramUserRepository.findAllByActiveTrue();
+    public Optional<TelegramUser> findByChatId(String chatId) {
+        return telegramUserRepository.findById(chatId);
     }
 
     @Override
-    public Optional<TelegramUser> findByChatId(String chatId) {
-        return telegramUserRepository.findById(chatId);
+    public List<TelegramUser> findAllInActiveUsers() {
+        return telegramUserRepository.findAllByActiveFalse();
+    }
+
+    @Override
+    public List<TelegramUser> findAllActiveUsers() {
+        return telegramUserRepository.findAllByActiveTrue();
     }
 }
