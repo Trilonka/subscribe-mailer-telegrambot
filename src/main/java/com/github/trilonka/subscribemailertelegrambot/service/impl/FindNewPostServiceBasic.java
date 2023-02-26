@@ -4,7 +4,7 @@ import com.github.trilonka.subscribemailertelegrambot.client.PostClient;
 import com.github.trilonka.subscribemailertelegrambot.client.dto.PostInfo;
 import com.github.trilonka.subscribemailertelegrambot.repository.entity.GroupSub;
 import com.github.trilonka.subscribemailertelegrambot.repository.entity.TelegramUser;
-import com.github.trilonka.subscribemailertelegrambot.service.FindNewArticleService;
+import com.github.trilonka.subscribemailertelegrambot.service.FindNewPostService;
 import com.github.trilonka.subscribemailertelegrambot.service.GroupSubService;
 import com.github.trilonka.subscribemailertelegrambot.service.SendBotMessageService;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class FindNewArticleServiceBasic implements FindNewArticleService {
+public class FindNewPostServiceBasic implements FindNewPostService {
 
     public static final String JAVARUSH_WEB_POST_FORMAT = "https://javarush.com/groups/posts/%s";
 
@@ -22,9 +22,9 @@ public class FindNewArticleServiceBasic implements FindNewArticleService {
     private final PostClient postClient;
     private final SendBotMessageService sendBotMessageService;
 
-    public FindNewArticleServiceBasic(GroupSubService groupSubService,
-                                      PostClient postClient,
-                                      SendBotMessageService sendBotMessageService)
+    public FindNewPostServiceBasic(GroupSubService groupSubService,
+                                   PostClient postClient,
+                                   SendBotMessageService sendBotMessageService)
     {
         this.groupSubService = groupSubService;
         this.postClient = postClient;
@@ -33,27 +33,27 @@ public class FindNewArticleServiceBasic implements FindNewArticleService {
 
 
     @Override
-    public void findNewArticles() {
+    public void findNewPosts() {
         groupSubService.findAll().forEach(gSub -> {
-            List<PostInfo> newPosts = postClient.findNewPosts(gSub.getId(), gSub.getLastArticleId());
+            List<PostInfo> newPosts = postClient.findNewPosts(gSub.getId(), gSub.getLastPostId());
 
-            setNewLastArticleId(gSub, newPosts);
+            setNewLastPostId(gSub, newPosts);
 
-            notifySubscribersAboutNewArticles(gSub, newPosts);
+            notifySubscribersAboutNewPosts(gSub, newPosts);
         });
     }
 
-    private void setNewLastArticleId(GroupSub gSub, List<PostInfo> newPosts) {
+    private void setNewLastPostId(GroupSub gSub, List<PostInfo> newPosts) {
         newPosts.stream().mapToInt(PostInfo::getId).max()
                 .ifPresent(id -> {
-                    gSub.setLastArticleId(id);
+                    gSub.setLastPostId(id);
                     groupSubService.save(gSub);
                 });
     }
 
-    private void notifySubscribersAboutNewArticles(GroupSub gSub, List<PostInfo> newPosts) {
+    private void notifySubscribersAboutNewPosts(GroupSub gSub, List<PostInfo> newPosts) {
         Collections.reverse(newPosts);
-        List<String> messagesWithNewArticles = newPosts.stream()
+        List<String> messagesWithNewPosts = newPosts.stream()
                 .map(post -> String.format("✨Вышла новая статья <b>%s</b> в группе <b>%s</b>.✨\n\n" +
                                 "<b>Описание:</b> %s\n\n" +
                                 "<b>Ссылка:</b> %s\n",
@@ -61,7 +61,7 @@ public class FindNewArticleServiceBasic implements FindNewArticleService {
                 .collect(Collectors.toList());
         gSub.getUsers().stream()
                 .filter(TelegramUser::isActive)
-                .forEach(it -> sendBotMessageService.sendMessage(it.getChatId(), messagesWithNewArticles));
+                .forEach(it -> sendBotMessageService.sendMessage(it.getChatId(), messagesWithNewPosts));
     }
 
     private String getPostUrl(String key) {

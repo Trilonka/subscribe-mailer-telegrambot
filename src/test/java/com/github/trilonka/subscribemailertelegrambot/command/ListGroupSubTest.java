@@ -31,7 +31,7 @@ public class ListGroupSubTest {
 
         TelegramUser user = new TelegramUser();
         user.setActive(true);
-        user.setChatId("1");
+        user.setChatId(1L);
 
         List<GroupSub> groupSubs = new ArrayList<>();
         groupSubs.add(populateGroupSub(1, "first"));

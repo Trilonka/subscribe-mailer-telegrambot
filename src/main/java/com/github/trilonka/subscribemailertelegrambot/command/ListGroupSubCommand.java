@@ -21,13 +21,13 @@ public class ListGroupSubCommand implements Command {
     @Override
     public void execute(Update update) {
         // TODO: add exception handling
-        TelegramUser user = telegramUserService.findByChatId(update.getMessage().getChatId().toString())
+        TelegramUser user = telegramUserService.findByChatId(update.getMessage().getChatId())
                 .orElseThrow(NotFoundException::new);
 
         String message = "Я нашел все подписки на группы: \n\n";
         String groupList = user.getGroupSubs().stream()
                 .map(it -> "Группа: " + it.getTitle() + " , ID = " + it.getId() + " \n")
                 .collect(Collectors.joining());
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), message + groupList);
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), message + groupList);
     }
 }
